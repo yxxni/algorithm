@@ -1,0 +1,29 @@
+import java.util.*;
+
+public class MCSS {
+
+  private static int MCSS2(int[] nums) {
+		  int maxSum = 0;
+	  	int endMax = Integer.MIN_VALUE;
+	  	for (int i = -1; i < nums.length - 1; i++) {
+		  	maxSum = Math.max(maxSum + nums[i + 1], nums[i + 1]);
+		  	endMax = Math.max(maxSum, endMax);
+	  	}
+	  	return endMax;
+	}
+  
+  public static void main(String[] args) {
+  
+  Scanner sc = new Scanner(System.in);
+  int n = sc.nextInt(); //배열 크기 입력
+  int[] data  = new int[n];
+  
+  for (int i = 0; i < n ; i++) {
+			data[i] = sc.nextInt();
+      }
+  sc.close;
+  
+  System.out.println(MCSS.MCSS2(data);
+  
+	}
+}
