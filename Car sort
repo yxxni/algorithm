@@ -1,0 +1,80 @@
+package 정렬;
+import java.util.*;
+
+class Car implements Comparable<Car>{
+	private String name;
+	private int mpg;
+	private float acc;
+	private int ori;
+	
+	public Car(String name, int mpg, float acc, int ori) {
+		this.name=name;
+		this.mpg=mpg;
+		this.acc=acc;
+		this.ori=ori;
+	}
+	
+	public int compareTo(Car other) { //차종 디폴트 정렬기준(이름으로 비교)
+		return this.name.compareTo(other.name); //이름 순
+	}
+	
+
+	//가속시간 순 acc => 이름 순
+	public static class ComAccName implements Comparator<Car>{
+		public int compare(Car c1, Car c2) {
+			if(c1.acc > c2.acc) return -1;
+			if(c1.acc < c2.acc) return 1;
+			return c1.name.compareTo(c2.name); //가속시간이 같으면 이름으로 비교
+			
+		}
+	}
+	//제조지역 순 ori => 연비 순
+	public static class ComOriName implements Comparator<Car>{
+		public int compare(Car c1, Car c2) {
+			if(c1.ori > c2.ori) return -1;
+			if(c1.ori < c2.ori) return 1; 
+			//제조지역이 같으면 연비로 비교
+			else if(c1.mpg > c2.mpg) return -1;
+			else if(c1.mpg < c2.mpg) return 1;
+			return c1.name.compareTo(c2.name); //제조지역, 연비 같으면 이름
+		}
+	}
+	//연비 순 mpg => 이름 순
+	public static class ComMpgName implements Comparator<Car>{
+		public int compare(Car c1, Car c2) {
+			if(c1.mpg > c2.mpg) return -1;
+			if(c1.mpg < c2.mpg) return 1;
+			return c1.name.compareTo(c2.name); //연비가 같으면 이름으로 비교
+			
+		}
+	}
+	public String toString() {
+		return this.name + " " + this.mpg + " " +this.acc + " " +this.ori;
+	}
+
+}
+public class SystemSort1 {
+
+	public static void main(String[] args) {
+		int n=5;
+		Car[] data=new Car[n];
+		data[0]=new Car("toyota corolla", 34, 16, 3);
+		data[1]=new Car("honda civic", 38, 15, 3);
+		data[2]=new Car("pontiac phoenix", 27, 18, 1);
+		data[3]=new Car("ford fairmont futura", 24, 16, 1);
+		data[4]=new Car("volkswagen rabbit", 36, 15, 2);
+		
+		System.out.println("차종 알파벳 순 정렬:");
+		Arrays.sort(data);
+		for (Car d: data)
+			System.out.println(d);
+		System.out.println("가속시간 순 정렬:");
+		Arrays.sort(data, new Car.ComAccName());
+		for (Car d: data)
+			System.out.println(d);
+		System.out.println("제조지역 코드 순 정렬:");
+		Arrays.sort(data, new Car.ComOriName());
+		for (Car d: data)
+			System.out.println(d);
+	}
+}
