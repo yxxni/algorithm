@@ -1,0 +1,107 @@
+package 정렬;
+import java.util.*;
+public class Sortsort {
+
+	public static void main(String[] args) {
+		try (Scanner input = new Scanner(System.in)) {
+			int number = input.nextInt(); //배열 개수 입력
+			int[] arr = new int[number];
+			for (int i = 0; i < arr.length; i++) { //배열 입력받기
+				arr[i] = input.nextInt();
+			}
+			System.out.println("Before : "+Arrays.toString(arr));
+			System.out.println("<< 선택 정렬로 내림차순 >>");
+			insertSort(arr);
+			System.out.println(Arrays.toString(arr));
+			System.out.println("<< 퀵 정렬로 오름차순 >>");
+			quickSort(arr, 0, arr.length-1);
+			System.out.println(Arrays.toString(arr));
+			System.out.println("<< 병합 정렬로 오름차순 >>");
+			mergeSort(arr);
+			System.out.println(Arrays.toString(arr));
+		}
+	}
+
+	private static void insertSort(int[] arr) {
+		int temp = 0;
+		int j = 0;
+		
+		for(int i=1; i<arr.length; i++){
+			temp = arr[i]; // 삽입대상 임시 저장.
+			j = i; //index 임시저장
+			while(j > 0 && temp > arr[j-1]){ //삽입대상이 정렬된 대상들보다 작은 경우가 있는 경우 
+				arr[j] = arr[j-1]; //밀기
+				j--; //다음 비교를 위해 인덱스 이동
+			}
+			arr[j] = temp; //최종으로 삽입될 위치에 삽입대상 삽입
+			}
+	}
+	
+ 	public static void swap(int[] arr, int pl, int pr) {
+        int temp = arr[pl];
+        arr[pl] = arr[pr];
+        arr[pr] = temp;
+        return;
+    }
+    
+    private static void quickSort(int[] arr,int start, int end) {
+        int part=partition(arr,start,end);
+        if(start<part-1) quickSort(arr,start,part-1);
+        if(end>part) quickSort(arr,part,end);
+    }
+
+    private static int partition(int[] arr,int start,int end) {
+        int pivot=arr[(start+end)/2];
+        while(start<=end) {
+            while(arr[start]<pivot) start++;
+            while(arr[end]>pivot) end--;
+            if(start<=end) {
+                swap(arr,start,end);
+                start++;
+                end--;
+            }
+        }
+        return start;
+    }
+    
+    public static void mergeSort(int[] arr) {
+        sort(arr, 0, arr.length);
+    }
+
+    private static void sort(int[] arr, int low, int high) {
+        if (high - low < 2) {
+            return;
+        }
+
+        int mid = (low + high) / 2;
+        sort(arr, 0, mid);
+        sort(arr, mid, high);
+        merge(arr, low, mid, high);
+    }
+
+    private static void merge(int[] arr, int low, int mid, int high) {
+        int[] temp = new int[high - low];
+        int t = 0, l = low, h = mid;
+
+        while (l < mid && h < high) {
+            if (arr[l] < arr[h]) {
+                temp[t++] = arr[l++];
+            } else {
+                temp[t++] = arr[h++];
+            }
+        }
+
+        while (l < mid) {
+            temp[t++] = arr[l++];
+        }
+
+        while (h < high) {
+            temp[t++] = arr[h++];
+        }
+
+        for (int i = low; i < high; i++) {
+            arr[i] = temp[i - low];
+        }
+    }
+
+}
